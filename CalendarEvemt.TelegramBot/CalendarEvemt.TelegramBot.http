@@ -1,0 +1,6 @@
+@CalendarEvemt.TelegramBot_HostAddress = http://localhost:5070
+
+GET {{CalendarEvemt.TelegramBot_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
