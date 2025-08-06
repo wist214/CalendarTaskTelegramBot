@@ -52,3 +52,8 @@ CodeCoverage/
 *.VisualState.xml
 TestResult.xml
 nunit-*.xml
+/.vs/CalendarTaskTelegramBot/FileContentIndex
+/.vs/CalendarTaskTelegramBot/v17
+/.vs/CalendarTaskTelegramBot/DesignTimeBuild
+/.vs/ProjectEvaluation
+/.vs/CalendarTaskTelegramBot/config
