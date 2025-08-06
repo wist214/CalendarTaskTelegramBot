@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34622.214
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CalendarEvent.Domain", "CalendarTask.Domain\CalendarEvent.Domain.csproj", "{FB1600DE-831B-42AC-9AAF-1CD1107F3617}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CalendarEvent.Domain", "CalendarTask.Domain\CalendarEvent.Domain.csproj", "{FB1600DE-831B-42AC-9AAF-1CD1107F3617}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CalendarEvent.Application", "CalendarEvent.Application\CalendarEvent.Application.csproj", "{76B0CF94-E7B1-4E6F-841B-A73613C85223}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CalendarEvent.Application", "CalendarEvent.Application\CalendarEvent.Application.csproj", "{76B0CF94-E7B1-4E6F-841B-A73613C85223}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CalendarEvent.Infrastructure", "CalendarEvent.Infrastructure\CalendarEvent.Infrastructure.csproj", "{7D35297C-6D78-4121-AADC-D38961122838}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CalendarEvent.Infrastructure", "CalendarEvent.Infrastructure\CalendarEvent.Infrastructure.csproj", "{7D35297C-6D78-4121-AADC-D38961122838}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CalendarEvent.TelegramBot", "CalendarEvemt.TelegramBot\CalendarEvent.TelegramBot.csproj", "{2FC8205F-6E08-4ED0-9C12-DE6EBC7F8D69}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CalendarEvent.TelegramBot", "CalendarEvemt.TelegramBot\CalendarEvent.TelegramBot.csproj", "{2FC8205F-6E08-4ED0-9C12-DE6EBC7F8D69}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CalendarEvent.TelegramBot.FunctionApp", "CalendarEvent.TelegramBot.FunctionApp\CalendarEvent.TelegramBot.FunctionApp.csproj", "{BC90E442-4AA1-4836-ACE5-FB7660B491D6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{2FC8205F-6E08-4ED0-9C12-DE6EBC7F8D69}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2FC8205F-6E08-4ED0-9C12-DE6EBC7F8D69}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2FC8205F-6E08-4ED0-9C12-DE6EBC7F8D69}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC90E442-4AA1-4836-ACE5-FB7660B491D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC90E442-4AA1-4836-ACE5-FB7660B491D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC90E442-4AA1-4836-ACE5-FB7660B491D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC90E442-4AA1-4836-ACE5-FB7660B491D6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

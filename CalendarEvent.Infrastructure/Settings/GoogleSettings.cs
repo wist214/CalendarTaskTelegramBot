@@ -13,6 +13,6 @@ namespace CalendarEvent.Infrastructure.Settings
         public string RedirectUri { get; set; } = null!;
         public string TokensFolder { get; set; } = null!;
         public string PostLoginRedirectUrl { get; set; } = null!;
-        public string ApplicationName { get; set; } = null!
+        public string ApplicationName { get; set; }
     }
 }
