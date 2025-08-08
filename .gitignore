@@ -57,3 +57,5 @@ nunit-*.xml
 /.vs/CalendarTaskTelegramBot/DesignTimeBuild
 /.vs/ProjectEvaluation
 /.vs/CalendarTaskTelegramBot/config
+/CalendarEvent.TelegramBot.FunctionApp/Properties/PublishProfiles
+/CalendarEvent.TelegramBot.FunctionApp/Properties/ServiceDependencies
