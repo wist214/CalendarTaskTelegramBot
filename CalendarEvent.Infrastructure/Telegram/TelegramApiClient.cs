@@ -1,8 +1,5 @@
-﻿using System;
-using CalendarEvent.Application.Services;
+﻿using CalendarEvent.Application.Services;
 using CalendarEvent.Application.Services.Models;
-using CalendarEvent.Infrastructure.Settings;
-using Microsoft.Extensions.Options;
 using Telegram.Bot;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
@@ -13,10 +10,9 @@ namespace CalendarEvent.Infrastructure.Telegram
     {
         private readonly TelegramBotClient _client;
         
-        public TelegramApiClient(IOptions<TelegramSettings> telegramSettings)
+        public TelegramApiClient()
         {
-            var settings = telegramSettings.Value;
-            _client = new TelegramBotClient(settings.BotToken);
+            _client = new TelegramBotClient(Environment.GetEnvironmentVariable("TELEGRAM_BOT_TOKEN"));
         }
         
         public async Task SendMessageAsync(long chatId, string message, KeyboardMarkup? markup, CancellationToken ct = default)

@@ -3,10 +3,11 @@ using CalendarEvent.Application.Commands;
 using CalendarEvent.Application.Notifications;
 using CalendarEvent.Application.Services;
 using MediatR;
+using Microsoft.Extensions.Logging;
 
 namespace CalendarEvent.Application.Handlers
 {
-    public class CreateCalendarItemHandler(ICalendarEventStore calendarEventStore, IMediator mediator) : IRequestHandler<CreateCalendarItemCommand>
+    public class CreateCalendarItemHandler(ICalendarEventStore calendarEventStore, IMediator mediator, ILogger<CreateCalendarItemHandler> logger) : IRequestHandler<CreateCalendarItemCommand>
     {
         public async Task Handle(CreateCalendarItemCommand request, CancellationToken cancellationToken)
         {
@@ -24,7 +25,7 @@ namespace CalendarEvent.Application.Handlers
             }
             catch (AuthenticationException ex)
             {
-                var errorMessage = "Необходимо авторизоваться для создания события в календаре";
+                var errorMessage = "Необходимо авторизоваться для создания события в календаре (/login)";
                 await mediator.Publish(new CalendarItemFailedNotification(
                     request.UserId,
                     request.ChatId,
@@ -35,6 +36,7 @@ namespace CalendarEvent.Application.Handlers
             catch (Exception ex)
             {
                 var errorMessage = "Что-то уж совсем странное произошло, даже не знаю, что ты сделал(а), но ничего не создалось";
+                logger.LogError($"Ошибка при создании события в календаре для пользователя {request.UserId} в чате {request.ChatId}, ex={ex}");
                 await mediator.Publish(new CalendarItemFailedNotification(
                     request.UserId,
                     request.ChatId,

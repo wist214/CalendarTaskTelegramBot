@@ -9,11 +9,10 @@ namespace CalendarEvent.Infrastructure.Auth
 {
     public class GoogleAuthCallbackHandler(
         IUserTokenStore tokenStore,
-        IMessageSender telegram,
-        IOptions<GoogleSettings> opts)
+        IMessageSender telegram)
         : IAuthCallbackHandler
     {
-        private readonly GoogleSettings _settings = opts.Value;
+        private readonly GoogleSettings _settings = new();
 
         public async Task HandleCallbackAsync(string code, string state, CancellationToken ct)
         {

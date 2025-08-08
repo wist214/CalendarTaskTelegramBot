@@ -1,18 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CalendarEvent.Infrastructure.Settings
+﻿namespace CalendarEvent.Infrastructure.Settings
 {
     public class GoogleSettings
     {
-        public string ClientId { get; set; } = null!;
-        public string ClientSecret { get; set; } = null!;
-        public string RedirectUri { get; set; } = null!;
-        public string TokensFolder { get; set; } = null!;
-        public string PostLoginRedirectUrl { get; set; } = null!;
-        public string ApplicationName { get; set; }
+        public string ClientId
+            => Environment.GetEnvironmentVariable("GOOGLE_CLIENT_ID")
+               ?? throw new InvalidOperationException("Environment variable 'GOOGLE_CLIENT_ID' is not set.");
+
+        public string ClientSecret
+            => Environment.GetEnvironmentVariable("GOOGLE_CLIENT_SECRET")
+               ?? throw new InvalidOperationException("Environment variable 'GOOGLE_CLIENT_SECRET' is not set.");
+
+        public string RedirectUri
+            => Environment.GetEnvironmentVariable("GOOGLE_REDIRECT_URI")
+               ?? throw new InvalidOperationException("Environment variable 'GOOGLE_REDIRECT_URI' is not set.");
+
+        public string ApplicationName
+            => Environment.GetEnvironmentVariable("GOOGLE_APPLICATION_NAME")
+               ?? throw new InvalidOperationException("Environment variable 'GOOGLE_APPLICATION_NAME' is not set.");
     }
 }

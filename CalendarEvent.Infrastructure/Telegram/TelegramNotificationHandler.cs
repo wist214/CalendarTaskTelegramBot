@@ -10,18 +10,10 @@ namespace CalendarEvent.Infrastructure.Telegram
     {
         public async Task Handle(CalendarItemCreatedNotification notification, CancellationToken ct)
         {
-            //var message = new OutgoingMessage
-            //{
-            //    Text = $"✅ Создано: {notification.Title}",
-            //    ReplyMarkup = new InlineKeyboardMarkup(new[]
-            //    {
-            //        new InlineKeyboardButton("Открыть", notification.Url)
-            //    })
-            //};
-
+            
             var message = notification.Type == MessageType.Task 
-                ? $"✅ Задача создана: {notification.Title} на {notification.Date:dd.MM.yyyy HH:mm}" 
-                : $"✅ Событие создано: {notification.Title} на {notification.Date:dd.MM.yyyy HH:mm}";
+                ? $"✅ Задача [{notification.Title}] создана на {notification.Date.LocalDateTime:dd.MM.yyyy HH:mm}" 
+                : $"✅ Событие [{notification.Title}] создано на {notification.Date.LocalDateTime:dd.MM.yyyy HH:mm}";
 
             await sender.SendMessageAsync(notification.ChatId, message, null, ct);
         }

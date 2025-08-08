@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Azure.Data.Tables" Version="12.11.0" />
     <PackageReference Include="Google.Apis.Calendar.v3" Version="1.69.0.3746" />
     <PackageReference Include="Google.Apis.Tasks.v1" Version="1.69.0.3790" />
     <PackageReference Include="Telegram.Bot" Version="22.6.0" />
