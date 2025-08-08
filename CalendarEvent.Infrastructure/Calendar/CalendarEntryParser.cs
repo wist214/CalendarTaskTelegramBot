@@ -109,44 +109,74 @@ namespace CalendarEvent.Infrastructure.Calendar
 
             var dateTime = date.Date + time;
 
+            // --- 3) Чистим summary: вырезаем найденные куски + «в/на» рядом со временем/датой
             var spans = new List<(int start, int length)>();
-            if (dateMatch != null) spans.Add((dateMatch.Index, dateMatch.Length));
+
+            if (dateMatch != null)
+            {
+                int dStart = dateMatch.Index;
+                int dLen = dateMatch.Length;
+
+                // прихватываем предлог перед датой: "в понедельник", "на субботу", "во вторник"
+                var preDate = Regex.Match(message[..dStart], @"(?<=^|\s)(в|во|на|к)\s*$",
+                    RegexOptions.IgnoreCase);
+                if (preDate.Success)
+                {
+                    dStart = preDate.Index;
+                    dLen += dateMatch.Index - preDate.Index;
+                }
+
+                // прихватываем разделители сразу после даты: "понедельник -", "понедельник, "
+                var afterDate = Regex.Match(message[(dStart + dLen)..], @"^\s*[-,:]\s*");
+                if (afterDate.Success)
+                    dLen += afterDate.Length;
+
+                spans.Add((dStart, dLen));
+            }
+
             if (timeMatch != null)
             {
-                int start = timeMatch.Index;
-                int len = timeMatch.Length;
+                int tStart = timeMatch.Index;
+                int tLen = timeMatch.Length;
 
-                // прихватываем предлог "в"/"на" + пробел перед временем
-                var pre = Regex.Match(message[..start], @"(?<=^|\s)(в|на)\s*$", RegexOptions.IgnoreCase);
-                if (pre.Success)
+                var preTime = Regex.Match(message[..tStart], @"(?<=^|\s)(в|на)\s*$",
+                    RegexOptions.IgnoreCase);
+                if (preTime.Success)
                 {
-                    start = pre.Index;
-                    len += timeMatch.Index - pre.Index;
+                    tStart = preTime.Index;
+                    tLen += timeMatch.Index - preTime.Index;
                 }
-                spans.Add((start, len));
+                spans.Add((tStart, tLen));
             }
 
             string cleaned = RemoveSpans(message, spans);
 
-            // 1) прибираем одиночные «0», которые могли остаться как мусор
+            // прибираем одиночные «0»‑хвосты
             cleaned = Regex.Replace(cleaned, @"(?<=^|\s)0(?=\s|$)", " ", RegexOptions.IgnoreCase);
 
-            // 2) нормализуем пробелы/знаки
+            // нормализуем пробелы/знаки
             cleaned = Regex.Replace(cleaned, @"[,\s]+", " ").Trim();
-
-            // 3) капитализация первой буквы
             if (!string.IsNullOrEmpty(cleaned))
                 cleaned = char.ToUpper(cleaned[0]) + cleaned[1..];
 
             // 4) Intent
-            var isMeeting = dateMatch != null || timeMatch != null;
-            var type = isMeeting ? MessageType.Meeting : MessageType.Task;
+            bool hasDate = dateMatch != null;
+            bool hasTime = timeMatch != null;
+
+            // если есть время — всегда Meeting; иначе Task
+            var type = hasTime ? MessageType.Meeting : MessageType.Task;
+
+            var startDate = date.Date + time; // для Task это будет просто дата + 00:00
 
             var result = new CalendarEntryParseResult
             {
                 Type = type,
-                Task = type == MessageType.Task ? new CalendarTask(cleaned, dateTime, false) : null,
-                Meeting = type == MessageType.Meeting ? new CalendarMeeting(cleaned, dateTime, dateTime.AddHours(1)) : null
+                Task = type == MessageType.Task
+                    ? new CalendarTask(cleaned, startDate, false)
+                    : null,
+                Meeting = type == MessageType.Meeting
+                    ? new CalendarMeeting(cleaned, startDate, startDate.AddHours(1))
+                    : null
             };
 
             return Task.FromResult(result);

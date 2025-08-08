@@ -106,10 +106,27 @@ namespace CalendarEvent.Infrastructure.Tests
             var res = await _parser.ParseAsync("22.08 Рыба", CancellationToken.None);
 
             var expected = new DateTime(DateTime.Today.Year, 8, 22, 0, 0, 0);
-            Assert.That(res.Type, Is.EqualTo(MessageType.Meeting));
-            AssertDateTimeOffsetLocal(res.Meeting!.Start, expected);
-            Assert.That(res.Meeting.Title, Is.EqualTo("Рыба"));
+            Assert.That(res.Type, Is.EqualTo(MessageType.Task));
+            AssertDateTimeOffsetLocal(res.Task!.Due, expected);
+            Assert.That(res.Task.Title, Is.EqualTo("Рыба"));
         }
+
+        [Test]
+        public async Task DateWithoutTime_Is_Task()
+        {
+            var res = await _parser.ParseAsync("в понедельник прозвонить за колодки", CancellationToken.None);
+            Assert.That(res.Type, Is.EqualTo(MessageType.Task));
+            Assert.That(res.Task!.Title, Is.EqualTo("Прозвонить за колодки"));
+        }
+
+        [Test]
+        public async Task Date_ddMM_WithoutTime_Is_Task()
+        {
+            var res = await _parser.ParseAsync("22.08 Рыба", CancellationToken.None);
+            Assert.That(res.Type, Is.EqualTo(MessageType.Task));
+            // Due = 22.08 00:00 локального года
+        }
+
 
         [Test]
         public async Task Supports_DifferentDateSeparators_And_Year()
