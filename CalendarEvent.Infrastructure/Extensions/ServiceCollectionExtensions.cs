@@ -7,6 +7,7 @@ using CalendarEvent.Infrastructure.Services;
 using CalendarEvent.Infrastructure.Telegram;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace CalendarEvent.Infrastructure.Extensions
 {
@@ -33,8 +34,26 @@ namespace CalendarEvent.Infrastructure.Extensions
             services.AddSingleton<IMessageSender, TelegramApiClient>();
             services.AddSingleton<IAuthService, TelegramAuthService>();
             services.AddSingleton<ICalendarEntryParser, CalendarEntryParser>();
+
+            // Notification handlers
             services.AddTransient<INotificationHandler<CalendarItemCreatedNotification>, TelegramNotificationHandler>();
             services.AddTransient<INotificationHandler<CalendarItemFailedNotification>, TelegramNotificationHandler>();
+            services.AddTransient<INotificationHandler<VoiceTranscribedNotification>, TelegramNotificationHandler>();
+
+            // Telegram services
+            services.AddSingleton<ITelegramFileService, TelegramFileService>();
+
+            // Speech services - use mock by default, can be overridden in production
+            var useAzureSpeech = !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("AZURE_SPEECH_KEY"));
+            if (useAzureSpeech)
+            {
+                services.AddHttpClient();
+                services.AddSingleton<ISpeechToTextService, Speech.AzureSpeechToTextService>();
+            }
+            else
+            {
+                services.AddSingleton<ISpeechToTextService, Speech.MockSpeechToTextService>();
+            }
 
             return services;
         }
