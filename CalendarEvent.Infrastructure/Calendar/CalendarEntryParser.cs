@@ -8,11 +8,11 @@ namespace CalendarEvent.Infrastructure.Calendar
     public class CalendarEntryParser : ICalendarEntryParser
     {
         // Дата: dd.MM, dd.MM.yyyy, а также / и -
-        // + слова + дни недели
+        // + слова + дни недели (полные и сокращенные)
         private static readonly Regex DatePattern = new(
             @"\b(?<date>(?<day>\d{1,2})[.\-/](?<mon>\d{1,2})(?:[.\-/](?<year>\d{2,4}))?)\b" +
             @"|(?<word>\bсегодня\b|\bзавтра\b|\bпослезавтра\b|\bпослепослезавтра\b)" +
-            @"|(?<dow>\bпонедельник\b|\bвторник\b|\bсред[ау]\b|\bчетверг\b|\bпятниц[ау]\b|\bсуббот[ау]\b|\bвоскресенье\b)",
+            @"|(?<dow>\bпонедельник\b|\bвторник\b|\bсред[ау]\b|\bчетверг\b|\bпятниц[ау]\b|\bсуббот[ау]\b|\bвоскресенье\b|\bпн\b|\bвт\b|\bср\b|\bчт\b|\bпт\b|\bсб\b|\bвс\b)",
             RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.CultureInvariant);
 
         // Время с минутами: HH:MM или H:MM (только двоеточие, чтобы не путать с 22.08)
@@ -198,13 +198,13 @@ namespace CalendarEvent.Infrastructure.Calendar
         private static DayOfWeek ParseDayOfWeek(string dow) =>
             dow.ToLower() switch
             {
-                "понедельник" => DayOfWeek.Monday,
-                "вторник" => DayOfWeek.Tuesday,
-                "среда" or "среду" => DayOfWeek.Wednesday,
-                "четверг" => DayOfWeek.Thursday,
-                "пятница" or "пятницу" => DayOfWeek.Friday,
-                "суббота" or "субботу" => DayOfWeek.Saturday,
-                "воскресенье" => DayOfWeek.Sunday,
+                "понедельник" or "пн" => DayOfWeek.Monday,
+                "вторник" or "вт" => DayOfWeek.Tuesday,
+                "среда" or "среду" or "ср" => DayOfWeek.Wednesday,
+                "четверг" or "чт" => DayOfWeek.Thursday,
+                "пятница" or "пятницу" or "пт" => DayOfWeek.Friday,
+                "суббота" or "субботу" or "сб" => DayOfWeek.Saturday,
+                "воскресенье" or "вс" => DayOfWeek.Sunday,
                 _ => throw new ArgumentOutOfRangeException(nameof(dow))
             };
 

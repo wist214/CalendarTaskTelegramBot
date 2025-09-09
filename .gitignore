@@ -59,3 +59,4 @@ nunit-*.xml
 /.vs/CalendarTaskTelegramBot/config
 /CalendarEvent.TelegramBot.FunctionApp/Properties/PublishProfiles
 /CalendarEvent.TelegramBot.FunctionApp/Properties/ServiceDependencies
+/.idea/.idea.CalendarTaskTelegramBot/.idea
